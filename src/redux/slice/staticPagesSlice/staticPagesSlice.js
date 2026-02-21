@@ -9,6 +9,13 @@ export const staticPagesSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ["StaticPages"]
         }),
+        policies: builder.query({
+            query: (lang) => ({
+                url: `/api/new-settings?lang=${lang}`,
+                method: "GET",
+            }),
+            providesTags: ["Blogs"]
+        }),
 
         staticPages: builder.query({
             query: ({ lang, id }) => ({
@@ -48,5 +55,6 @@ export const {
     usePagesFooterQuery,
     useStaticPagesQuery,
     useWorkingWithTaqiQuery,
-    useFaqsQuery
+    useFaqsQuery,
+    usePoliciesQuery
 } = staticPagesSlice;

@@ -4,13 +4,14 @@ export const blogsSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         allBlogs: builder.query({
             query: (lang) => ({
-                url: `/api/blogs?lang=${lang}`,
+                url: `/api/new-settings?lang=${lang}`,
                 method: "GET",
             }),
             providesTags: ["Blogs"]
         }),
 
         showBlog: builder.query({
+
             query: ({ lang, id }) => ({
                 url: `/api/blogs/${id}?lang=${lang}`,
                 method: "GET",
@@ -38,7 +39,62 @@ export const blogsSlice = apiSlice.injectEndpoints({
                     Authorization: `Bearer ${token}`,
                 },
                 body: payload
-            }),
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+         
+
+         
+           }),
             invalidatesTags: ["Blogs"],
         }),
     })

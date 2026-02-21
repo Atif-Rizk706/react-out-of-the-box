@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Minus, Plus, ShoppingCart } from "lucide-react";
 import { Rating, RoundedStar } from "@smastrom/react-rating";
-
+import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Thumbs, FreeMode, Navigation, Autoplay, EffectCards } from 'swiper/modules';
 import 'swiper/css';
@@ -12,6 +12,8 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
 import 'swiper/css/effect-cards';
+import { Link } from "react-router-dom";
+
 
 import SmallLoad from "../../../components/SmallLoad/SmallLoad";
 import { getUserToken } from "../../../utils/CookisAuth";
@@ -35,6 +37,23 @@ const ProductInfo = ({ productDetails, cart }) => {
         inactiveFillColor: "#555",
         itemStrokeWidth: 0,
     };
+
+    const navigate = useNavigate();
+
+const handleBuyNow = (offer) => {
+  const product = productDetails.Data["Product-Details"][0];
+
+  navigate("/checkout-direct", {
+    state: {
+      product_id: product.id,
+      product_name: product.name,
+      quantity: offer.number_of_peaces,
+      price: offer.price,
+      total: offer.number_of_peaces * offer.price,
+      image: product.image_path
+    }
+  });
+};
 
     const handleAddToCart = async () => {
         const data = {
@@ -222,7 +241,51 @@ const ProductInfo = ({ productDetails, cart }) => {
                         </>
                     }
                 </div>
+
+
+                 {/* OFFERS – Independent from Cart */}
+                {productDetails?.Data?.["Product-Details"]?.[0]?.offers?.length > 0 && (
+                <div className="offers">
+                <h4 className="offers-title">{t("offers")}</h4>
+                
+                {productDetails.Data["Product-Details"][0].offers.map((offer) => (
+                    <div className="
+                    offer-card" key={offer.ID}>
+                    
+                    <div className="offer-left">
+                        <p className="offer-text">
+                        {t("buy")} <span>{offer.number_of_peaces}</span> {t("pieces")}
+                        </p>
+                
+                        <p className="offer-price">
+                        {offer.price} $
+                        </p>
+                    </div>
+                    <Link
+                        to="/check-out-direct"
+                        state={{
+                            product_id: productDetails.Data["Product-Details"][0].id,
+                            product_name: productDetails.Data["Product-Details"][0].name,
+                            quantity: offer.number_of_peaces,
+                            price: offer.price,
+                            total: offer.number_of_peaces * offer.price,
+                            image: productDetails.Data["Product-Details"][0].image_path || productDetails.Data["Product-Details"][0].image
+                        }}
+                        >
+                        <button className="buy-now">{t("buy_now")}</button>
+                     </Link>
+                   
+                
+                    </div>
+                ))}
+                </div>
+             
+                )}
             </div>
+
+
+           
+
 
             {/* Popup Images */}
             {openPopupImages &&

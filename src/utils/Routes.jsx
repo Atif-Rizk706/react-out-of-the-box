@@ -7,6 +7,7 @@ import Login from "../pages/Auth/Login/Login";
 import Register from "../pages/Auth/Register/Register";
 import SearchPage from "../pages/SearchPage/SearchPage";
 import ProductDetails from "../pages/ProductDetails/ProductDetails";
+import CheckOutDirect from "../pages/CheckOut/CheckOutDirect";
 
 const WhoWeAre = React.lazy(() => import("../pages/StaticPages/WhoWeAre/WhoWeAre"));
 const Contact = React.lazy(() => import("../pages/StaticPages/Contact/Contact"));
@@ -31,6 +32,10 @@ const routes = createBrowserRouter([
         path: "/",
         element: <Layout />,
         children: [
+            {
+                path: "/check-out-direct",
+                element: <CheckOutDirect />
+            },
             {
                 index: true,
                 element: <Home />

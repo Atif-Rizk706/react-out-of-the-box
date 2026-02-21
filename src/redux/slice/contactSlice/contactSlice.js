@@ -10,9 +10,18 @@ export const contactSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: ["ContactUs"]
         }),
+
+        contactPages: builder.query({
+            query: ({ lang }) => ({
+                url: `/api/contacts?lang=${lang}`,
+                method: "GET",
+            }),
+            providesTags: ["ContactUs"]
+        }),
     })
-})
+});
 
 export const {
-    useContactUsMutation
+    useContactUsMutation,
+    useContactPagesQuery
 } = contactSlice;

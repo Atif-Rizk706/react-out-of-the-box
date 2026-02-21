@@ -30,7 +30,7 @@ const Categories = () => {
                         >
                             <div className="image">
                                 <img
-                                    src={el.image_web || DefaultImage}
+                                    src={el.img || DefaultImage}
                                     alt={`image-category-${el.name}`}
                                     width={300}
                                     height={280}

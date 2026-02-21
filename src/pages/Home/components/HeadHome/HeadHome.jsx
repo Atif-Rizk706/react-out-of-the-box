@@ -17,7 +17,7 @@ const HeadHome = ({ slider, categories, loading }) => {
     return (
         <div className="head-home">
             <div className="container">
-                <div className="categories">
+                {/* <div className="categories">
                     {loading ? <SmallLoad /> :
                         <ul>
                             {categories?.data?.map(el => (
@@ -30,7 +30,7 @@ const HeadHome = ({ slider, categories, loading }) => {
                             ))}
                         </ul>
                     }
-                </div>
+                </div> */}
 
                 <div className="slider">
                     {loading ? <SmallLoad /> :

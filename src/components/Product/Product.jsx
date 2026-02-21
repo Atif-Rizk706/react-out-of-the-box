@@ -78,7 +78,7 @@ const Product = ({ product }) => {
     return (
         <div className="product">
             <Link to={`/shop/${product?.category_id}/product-details/${product?.id}`} className="image">
-                <img src={product?.image} alt={product?.title_img} />
+                <img src={product?.image_path} alt={product?.title_img} />
             </Link>
 
             <div className="content">

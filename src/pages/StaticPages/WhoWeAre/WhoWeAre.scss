@@ -1,48 +1,55 @@
 .who-we-are {
-    .loading-btn {
-        padding-block: 30px;
-        color: var(--second_color);
 
-        svg {
-            width: 70px;
-            height: 70px;
-        }
-    }
-
-    >.container {
+    > .container {
         padding-block: 25px;
+        margin-top: 60px;
+        margin-bottom: 40px;
+
         display: flex;
+        flex-direction: column; // 👈 أهم حاجة
         align-items: center;
-        justify-content: space-evenly;
+        text-align: center;
+        gap: 25px;
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .content {
+            width: 70%;
+
+            .desc {
+                font-size: 18px;
+                line-height: 1.9;
+                overflow-wrap: break-word;
+            }
+        }
 
         .image {
             width: 35%;
 
             img {
                 width: 100%;
-            }
-        }
-
-        .content {
-            width: 50%;
-
-            p {
-                font-size: 18px;
-                line-height: 1.9;
-                overflow-wrap: break-word;
+                height: auto;
             }
         }
     }
 }
 
+
 @media (max-width: 991px) {
     .who-we-are {
-        >.container {
-            flex-direction: column-reverse;
-            gap: 20px;
+        > .container {
 
-            >div {
-                width: 100% !important;
+            .image {
+                width: 60%;   // 👈 تصغير الكونتينر نفسه
+                margin: 0 auto;
+
+                img {
+                    width: 100%;
+                    height: auto;
+                }
             }
         }
     }

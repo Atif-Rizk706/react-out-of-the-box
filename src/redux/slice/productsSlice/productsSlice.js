@@ -5,7 +5,7 @@ export const staticPagesSlice = apiSlice.injectEndpoints({
         allCatigories: builder.query({
             query: ({ lang }) => {
                 return {
-                    url: `/api/categories?store_id=34&lang=${lang}`,
+                    url: `/api/categories?lang=${lang}`,
                     method: "GET",
                 };
             },

@@ -234,8 +234,90 @@
                 width: 50px;
             }
         }
+
+        .offers {
+            margin-top: 30px;
+            padding: 20px;
+            background: #fafafa;
+            border-radius: 12px;
+            border: 1px solid #eee;
+
+            .offers-title {
+                font-size: 18px;
+                font-weight: bold;
+                margin-bottom: 15px;
+                color: #222;
+            }
+
+            .offer-card {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #fff;
+                padding: 14px 16px;
+                border-radius: 10px;
+                margin-bottom: 12px;
+                border: 1px solid #e5e5e5;
+                transition: all 0.25s ease;
+
+                &:hover {
+                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+                    transform: translateY(-2px);
+                }
+            }
+
+            .offer-left {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+
+                .offer-text {
+                    font-size: 14px;
+                    color: #555;
+
+                    span {
+                        font-weight: bold;
+                        color: #000;
+                    }
+                }
+
+                .offer-price {
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: var(--second_color);
+                }
+            }
+
+            .buy-now {
+                background: linear-gradient(
+                    135deg,
+                    var(--second_color),
+                    #c29c2b
+                );
+                color: #000;
+                border: none;
+                padding: 8px 18px;
+                font-size: 14px;
+                font-weight: 600;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: all 0.25s ease;
+
+                &:hover {
+                    transform: scale(1.05);
+                    opacity: 0.9;
+                }
+
+                &:active {
+                    transform: scale(0.97);
+                }
+            }
+        }
+
     }
 }
+
+
 
 @media (max-width: 991px) {
     .product-info {

@@ -59,7 +59,7 @@ const MenuPhone = ({ menuPhone, setMenuPhone }) => {
                 </div>
 
                 <div className="logo">
-                    <img src="/logo.png" alt="logo" />
+                    <img src="/lo.png" alt="logo" />
                 </div>
             </div>
 

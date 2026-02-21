@@ -23,31 +23,31 @@ const Home = () => {
         isLoading: loadCat,
         isFetching: fetchCat
     } = useAllCatigoriesQuery({ lang: i18n.language });
-    const {
-        data: services = [],
-        isLoading: loadServ,
-        isFetching: fetchServ
-    } = useServicesQuery(i18n.language);
+    // const {
+    //     data: services = [],
+    //     isLoading: loadServ,
+    //     isFetching: fetchServ
+    // } = useServicesQuery(i18n.language);
     const {
         data: bestSellers = [],
         isLoading: loadBestSellers,
         isFetching: fetchBestSellers
     } = useBestSellersQuery(i18n.language);
-    const {
-        data: newProducts = [],
-        isLoading: loadNewProducts,
-        isFetching: fetchNewProducts
-    } = useProductsQuery({ lang: i18n.language, },);
+    // const {
+    //     data: newProducts = [],
+    //     isLoading: loadNewProducts,
+    //     isFetching: fetchNewProducts
+    // } = useProductsQuery({ lang: i18n.language, },);
     const {
         data: productsOffers = [],
         isLoading: loadOffers,
         isFetching: fetchOffers,
     } = useProductOffersQuery({ lang: i18n.language, has_offer_end_date: 1 });
-    const {
-        data: partners = [],
-        isLoading: loadPartners,
-        isFetching: fetchPartners,
-    } = usePartnersQuery({ lang: i18n.language });
+    // const {
+    //     data: partners = [],
+    //     isLoading: loadPartners,
+    //     isFetching: fetchPartners,
+    // } = usePartnersQuery({ lang: i18n.language });
 
     return (
         <div className="home">
@@ -57,17 +57,17 @@ const Home = () => {
                 loading={loadBanners || loadCat || fetchBanners || fetchCat}
             />
 
-            <Services
+           {/*  <Services
                 data={services}
                 loading={loadServ || fetchServ}
-            />
+            /> */}
 
-            <TypeOfAnimal
+          {/*   <TypeOfAnimal
                 data={mainCategories}
                 loading={loadCat || fetchCat}
-            />
+            /> */}
 
-            <ShoppingByFood
+           <ShoppingByFood
                 data={mainCategories}
                 loading={loadCat || fetchCat}
             />
@@ -77,12 +77,12 @@ const Home = () => {
                 loading={loadBestSellers || fetchBestSellers}
             />
 
-            <NewlyAdded data={newProducts} loading={loadNewProducts || fetchNewProducts} />
+            {/* <NewlyAdded data={newProducts} loading={loadNewProducts || fetchNewProducts} /> */}
 
-            <MarqueeComponent
+            {/* <MarqueeComponent
                 data={partners}
                 loading={loadPartners || fetchPartners}
-            />
+            /> */}
 
             <Discounts
                 data={productsOffers}

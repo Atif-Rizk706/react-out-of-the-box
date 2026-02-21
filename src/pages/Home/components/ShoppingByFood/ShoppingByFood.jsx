@@ -23,7 +23,7 @@ const ShoppingByFood = ({ data, loading }) => {
                             slidesPerView={3}
                             spaceBetween={15}
                             speed={1000}
-                            loop={data?.msg.list_cat_foods.length > 7}
+                            loop={data?.length > 7}
                             modules={[Pagination, Autoplay]}
                             className="mySwiper"
                             breakpoints={{
@@ -45,10 +45,10 @@ const ShoppingByFood = ({ data, loading }) => {
                                 disableOnInteraction: false,
                             }}
                         >
-                            {data?.msg.list_cat_foods?.map((el) => (
+                            {data.data.map((el) => (
                                 <SwiperSlide>
                                     <Link to={`/shop/${el.id}`} className="box" key={el.id}>
-                                        <img src={el.image} alt={`image-${el.id}`} />
+                                        <img src={el.img} alt={`image-${el.id}`} />
                                         <p>{el.name}</p>
                                     </Link>
                                 </SwiperSlide>

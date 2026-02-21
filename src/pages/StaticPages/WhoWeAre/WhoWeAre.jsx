@@ -8,22 +8,34 @@ const WhoWeAre = () => {
     const { data = [], isLoading } = usePagesFooterQuery(i18n.language);
 
     return (
-        <div className="who-we-are">
-            {isLoading ? <SmallLoad /> :
-                <div className="container">
-                    <div className="content">
-                        <div dangerouslySetInnerHTML={{ __html: data?.data?.[0]?.content }} className="desc" />
-                    </div>
+      <div className="who-we-are">
+    {isLoading ? <SmallLoad /> :
+        <div className="container">
 
-                    <div className="image">
-                        <img
-                            src={data?.data?.[0]?.image}
-                            alt={data?.data?.[0]?.title}
-                        />
-                    </div>
-                </div>
-            }
+            {/* 1️⃣ العنوان */}
+            <h2 className="title">من نحن</h2>
+
+            {/* 2️⃣ المحتوى */}
+            <div className="content">
+                <div
+                    dangerouslySetInnerHTML={{ __html: data?.data?.value }}
+                    className="desc"
+                />
+            </div>
+
+            {/* 3️⃣ الصورة */}
+            <div className="image">
+                <img
+                    src="/lo.png"
+                    alt="logo"
+                    loading="lazy"
+                />
+            </div>
+
         </div>
+    }
+</div>
+
     );
 }
 

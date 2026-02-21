@@ -4,6 +4,38 @@
     background-color: var(--second_color);
 
     .container {
+
+              .socials {
+    display: flex;
+    gap: 14px;
+    margin-top: 15px;
+
+    a {
+      width: 12px;
+      height: 50px; // ✔ دايرة مظبوطة
+      border-radius: 50%;
+      background-color: #68acf4;
+      color: #fff;
+     
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 18px; // حجم الأيقونة
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: var(--main_color);
+        transform: translateY(-3px);
+      }
+
+      FontAwesomeIcon {
+        width: 29px;
+        height: 18px;
+      }
+    }
+  }
+
         .row {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
@@ -68,12 +100,11 @@
                     margin-bottom: 10px;
                 }
 
-                p {
-                    font-size: 18px;
-
-                    &:not(&:last-of-type) {
-                        margin-bottom: 10px;
-                    }
+                 p {
+                    margin-top: 20px;
+                    font-size: 14px;
+                    color: #000; // ✔ نص الحقوق أسود
+                    text-align: center;
                 }
 
                 .images {
