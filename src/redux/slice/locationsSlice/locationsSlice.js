@@ -17,10 +17,18 @@ export const locationsSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ["Locations"]
         }),
+         governorates: builder.query({
+            query: ({ lang, id }) => ({
+                url: `/api/governorate?lang=${lang}`,
+                method: "GET",
+            }),
+            providesTags: ["Locations"]
+        }),
     })
 })
 
 export const {
     useCountrysQuery,
     useCitysQuery,
+    useGovernoratesQuery,
 } = locationsSlice;

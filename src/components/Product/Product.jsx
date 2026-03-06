@@ -99,9 +99,9 @@ const Product = ({ product }) => {
                 <h3>{product?.name}</h3>
 
                 <div className="price">
-                    <p className="cuurent">${product?.current_price}</p>
+                    <p className="cuurent">EGP{product?.current_price}</p>
                     {+product?.old_price > 0 &&
-                        <p className="old">${+product?.old_price}</p>
+                        <p className="old">EGP{+product?.old_price}</p>
                     }
                 </div>
 

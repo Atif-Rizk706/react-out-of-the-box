@@ -1,12 +1,12 @@
 import "./CheckOut.scss";
-import { useCitysQuery, useCountrysQuery } from "../../redux/slice/locationsSlice/locationsSlice";
+import { useCitysQuery, useCountrysQuery ,useGovernoratesQuery} from "../../redux/slice/locationsSlice/locationsSlice";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getUserToken } from "../../utils/CookisAuth";
 import { useProfileQuery } from "../../redux/slice/authSlice/authSlice";
 import Loading from "../../components/Loading/Loading";
-import { useMakeOrderMutation } from "../../redux/slice/checkOut/checkOut";
+import { useMakeDirectOrderMutation } from "../../redux/slice/checkoutDirect/checkoutDirect";
 import toast from "react-hot-toast";
 import SmallLoad from "../../components/SmallLoad/SmallLoad";
 
@@ -21,14 +21,17 @@ const CheckOutDirect = () => {
 
     const { data: profile = {}, isLoading } = useProfileQuery(token);
     const { data: countrys = [] } = useCountrysQuery(i18n.language);
+    const { data: governorates = [] } = useGovernoratesQuery(i18n.language);
+    const [shippingPrice, setShippingPrice] = useState(0);
+
     const { data: citys = [] } = useCitysQuery(
         { lang: i18n.language, id: countryId },
         { skip: !countryId }
     );
 
     const firebaseId = localStorage.getItem("fcmToken");
-    const [makeOrder, { isLoading: loadSubmit }] = useMakeOrderMutation();
-
+    //const [makeOrder, { isLoading: loadSubmit }] = useMakeOrderMutation();
+const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation()
     if (!order) {
         navigate("/");
         return null;
@@ -36,14 +39,14 @@ const CheckOutDirect = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+/* 
         if (!token) {
             toast.error(t("please_login"));
             navigate("/login");
             return;
-        }
+        } */
 
-        if (!e.target.elements.contrey_id.value || !e.target.elements.city_id.value) {
+        if (!e.target.elements.state_id.value) {
             toast.error(t("country_city_required"));
             return;
         }
@@ -51,26 +54,26 @@ const CheckOutDirect = () => {
         const data = {
             product_id: order.product_id,
             quantity: order.quantity,
-            total: order.total,
+            total: order.total + shippingPrice,
+            sub_total:order.total,
+            name: e.target.elements.name.value,
+             email: e.target.elements.email.value,
+             phone: e.target.elements.phone.value,
+             alt_phone: e.target.elements.alt_phone.value,
+             state_id: +e.target.elements.state_id.value,
+             address: e.target.elements.address.value,
+            // sub_total: +location.state.totalPrice,
 
-            name: profile.name,
-            phone: profile.phone,
-            email: profile.email,
-
-            contrey_id: +e.target.elements.contrey_id.value,
-            city_id: +e.target.elements.city_id.value,
-            address: e.target.elements.address.value,
-            area: e.target.elements.area.value,
+            delivery_price: shippingPrice,       // 👈 أضف ده
 
             payment_type: "cash",
             payment_status: 0,
-            firebase_id: firebaseId,
         };
 
         try {
-            await makeOrder({ token, payload: data }).unwrap();
+            await makeDirectOrder({ token, payload: data }).unwrap();
             toast.success("تم إرسال الطلب بنجاح");
-            navigate("/success");
+            navigate("/");
         } catch {
             toast.error(t("unexpected_error"));
         }
@@ -89,42 +92,57 @@ const CheckOutDirect = () => {
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("name")}</label>
-                                <input type="text" defaultValue={profile?.name || ""} disabled />
+                                <input type="text" name="name"  defaultValue={profile?.name || ""}  />
                             </div>
 
                             <div className="input-group">
                                 <label>{t("email")}</label>
-                                <input type="text" defaultValue={profile?.email || ""} disabled />
+                                <input type="text"   name="email" defaultValue={profile?.email || ""}  />
                             </div>
                         </div>
 
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("phone")}</label>
-                                <input type="text" defaultValue={profile?.phone || ""} disabled />
+                                <input type="text"  name="phone" defaultValue={profile?.phone || ""}  />
+                            </div>
+                        </div>
+                        <div className="group">
+                            <div className="input-group">
+                                <label>{t("alt_phone")}</label>
+                                <input type="text"  name="alt_phone" defaultValue={profile?.phone || ""}  />
                             </div>
                         </div>
 
                         <h3>{t("ship_to_address")}</h3>
 
                         <div className="group">
-                            <div className="input-group">
-                                <label>{t("country")}</label>
-                                <select name="contrey_id" onChange={(e) => setCountryId(e.target.value)}>
-                                    <option value="">{t("select_country")}</option>
-                                    {countrys?.data?.map((el) => (
-                                        <option key={el.ID} value={el.ID}>{el.Name}</option>
-                                    ))}
-                                </select>
-                            </div>
+                           
 
                             <div className="input-group">
                                 <label>{t("city")}</label>
-                                <select name="city_id">
+                                <select name="state_id" 
+                                  onChange={(e) => {
+                                        const selectedId = Number(e.target.value);
+                                         console.log("Selected ID:", selectedId);
+                                        console.log("Governorates:", governorates?.data);
+                                        const selectedCity = governorates?.data?.find(
+                                            (city) => city.ID === selectedId
+                                        );
+                                          console.log("de:", selectedCity?.delivery_price);
+
+
+
+                                        setShippingPrice(selectedCity?.delivery_price || 0);
+                                    }}
+                                     
+                                >
+
+
                                     <option value="">{t("select_city")}</option>
-                                    {citys?.data?.map((el) => (
-                                        <option key={el.id} value={el.id}>
-                                            {el.name[i18n.language]}
+                                    {governorates?.data?.map((el) => (
+                                        <option key={el.id} value={el.ID}>
+                                            {el.name}
                                         </option>
                                     ))}
                                 </select>
@@ -137,32 +155,49 @@ const CheckOutDirect = () => {
                                 <input type="text" name="address" />
                             </div>
 
-                            <div className="input-group">
-                                <label>{t("area")}</label>
-                                <input type="text" name="area" />
-                            </div>
+                            
                         </div>
+                         <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
+                            {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
+                        </button>
                     </form>
                 </div>
 
                 {/* ORDER INFO */}
                 <div className="info-order">
-                    <h3>ملخص الطلب</h3>
-
-                    <div className="order-product">
-                        <p><strong>{order.product_name}</strong></p>
-                        <p>الكمية: {order.quantity}</p>
-                        <p>سعر القطعة: {order.price} $</p>
-                    </div>
-
+{/*                     <h3>ملخص الطلب</h3>
+ */}
                     <div className="total-products">
+                        <p>{t("product_name")  } : </p>
+                        <p><strong>{order.product_name}</strong></p>
+                    
+                    </div>
+                     <div className="total-products">
+                       
+                        <p>الكمية: </p>
+                         <p>{order.quantity}</p>
+                        
+                    </div>
+                    <div className="total-products">
+                       
+                       
+                        <p>سعر القطعة:</p>
+                        <p> {order.price} EGP</p>
+                        
+                    </div>
+                   
+                    <div className="total-products">
+                        <p>{t("shipping")}</p>
+                        <p>{shippingPrice}</p>
+                    </div>
+                     <div className="total-products">
                         <p>{t("total")}</p>
-                        <p>${order.total}</p>
+                        <p>ُEGP{order.total +shippingPrice}</p>
                     </div>
 
-                    <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
-                        {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
-                    </button>
+                    
+
+                   
                 </div>
             </div>
         </div>

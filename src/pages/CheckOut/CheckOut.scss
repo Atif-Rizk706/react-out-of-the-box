@@ -45,12 +45,28 @@
                         border: 1px solid #DDD;
                         padding: 12px;
                         border-radius: 15px;
-
+                        color: rgb(5, 5, 5);
                         &:disabled {
                             background-color: #ececec;
                         }
                     }
+                    option {
+                                                        color: rgb(0, 0, 0);
+
+                    } 
                 }
+            }
+            .pay {
+                display: block;
+                width: 100%;
+                margin-top: 20px;
+                padding: 10px;
+                font-size: 17px;
+                background-color: var(--second_color);
+                color: #FFF;
+                border: none;
+                border-radius: 15px;
+                cursor: pointer;
             }
 
             h3 {
@@ -68,7 +84,7 @@
             padding: 20px;
             border-radius: 20px;
 
-            div:not(div:last-of-type) {
+            div {
                 display: flex;
                 align-items: center;
                 justify-content: space-between;

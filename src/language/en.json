@@ -165,11 +165,15 @@
     "ads_2": "Better Health for Your Pet",
     "ads_3": "Trusted Veterinary Products for Your Pet",
     "shop_by_pet_type": "Shop by Pet Type",
-    "shop_by_food": "Shop by Food",
+    "shop_by_food": "Shop by Category",
     "hello": "Welcome",
     "register_and_enjoy_discount": "Register now and enjoy shopping at discounted prices!",
     "new_customer": "New Customer?",
     "register_now": "Register Now",
     "shopping_cart": "Shopping Cart",
-    "no_products_in_cart": "There are no products in the shopping cart."
+    "no_products_in_cart": "There are no products in the shopping cart.",
+     "buy_now":"buy now",
+    "pieces":"pieces",
+    "buy":"buy",
+    "product_name":"product name"
 }

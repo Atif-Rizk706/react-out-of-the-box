@@ -28,7 +28,7 @@
 
     .image {
         display: block;
-        height: 200px;
+        height: 220px;
         overflow: hidden;
         padding: 15px;
         
@@ -42,7 +42,7 @@
 
     .content {
         background-color: #FFF;
-        padding: 15px 20px;
+        padding: 8px 20px 15px 20px;
         display: flex;
         flex-direction: column;
         gap: 10px;
@@ -87,7 +87,8 @@
         }
 
         .btn-cart {
-            margin-top: auto;
+            margin-top: 8px;
+
             width: 100%;
 
             p {

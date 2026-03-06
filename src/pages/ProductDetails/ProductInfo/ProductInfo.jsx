@@ -183,11 +183,11 @@ const handleBuyNow = (offer) => {
                 <div className="price-sku">
                     <div className="price">
                         <p className="new">
-                            {productDetails?.Data?.["Product-Details"]?.[0]?.current_price} $
+                            {productDetails?.Data?.["Product-Details"]?.[0]?.current_price} EGP
                         </p>
                         {+productDetails?.Data?.["Product-Details"]?.[0]?.old_price > 0 &&
                             <p className="old">
-                                {productDetails?.Data?.["Product-Details"]?.[0]?.old_price} $
+                                {productDetails?.Data?.["Product-Details"]?.[0]?.old_price} EGP
                             </p>
                         }
                     </div>
@@ -234,10 +234,23 @@ const handleBuyNow = (offer) => {
                                     :
                                     <>
                                         <ShoppingCart />
-                                        <span>{t("add_to_cart")}</span>
                                     </>
                                 }
                             </button>
+                             <Link
+                                to="/check-out-direct"   
+                                state={{
+                                    product_id: productDetails.Data["Product-Details"][0].id,
+                                    product_name: productDetails.Data["Product-Details"][0].name,
+                                    quantity: quantity,
+                                    price:   productDetails.Data["Product-Details"][0].current_price ,
+                                    total: productDetails.Data["Product-Details"][0].current_price * quantity,
+                                    image: productDetails.Data["Product-Details"][0].image_path || productDetails.Data["Product-Details"][0].image
+                                }}
+                                >
+                                <button className="buy-now">{t("buy_now")}</button>
+                            </Link>
+                          
                         </>
                     }
                 </div>
@@ -258,7 +271,7 @@ const handleBuyNow = (offer) => {
                         </p>
                 
                         <p className="offer-price">
-                        {offer.price} $
+                        {offer.price} EGP
                         </p>
                     </div>
                     <Link
@@ -267,8 +280,8 @@ const handleBuyNow = (offer) => {
                             product_id: productDetails.Data["Product-Details"][0].id,
                             product_name: productDetails.Data["Product-Details"][0].name,
                             quantity: offer.number_of_peaces,
-                            price: offer.price,
-                            total: offer.number_of_peaces * offer.price,
+                            price:   offer.price / offer.number_of_peaces ,
+                            total: offer.price,
                             image: productDetails.Data["Product-Details"][0].image_path || productDetails.Data["Product-Details"][0].image
                         }}
                         >
