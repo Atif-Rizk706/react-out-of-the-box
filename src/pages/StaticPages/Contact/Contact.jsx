@@ -13,9 +13,9 @@ const Contact = () => {
         e.preventDefault();
 
         const form = e.target;
-        const { first_name, last_name, email, comments } = form.elements;
+        const { first_name, last_name, phone_number, comments } = form.elements;
 
-        [first_name, last_name, email, comments].forEach((input) =>
+        [first_name, last_name, phone_number, comments].forEach((input) =>
             input.classList.remove("error")
         );
 
@@ -28,7 +28,7 @@ const Contact = () => {
             last_name.classList.add("error");
             hasError = true;
         }
-        if (email.value.trim() === "") {
+        if (phone_number.value.trim() === "") {
             email.classList.add("error");
             hasError = true;
         }

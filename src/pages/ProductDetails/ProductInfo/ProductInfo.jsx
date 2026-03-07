@@ -74,7 +74,7 @@ const handleBuyNow = (offer) => {
             toast.error(t("unexpected_error"));
         }
     }
-
+ 
     useEffect(() => {
         const item =
             cart?.data?.list_item.find(el => el.id === productDetails.Data["Product-Details"][0].id)
@@ -245,6 +245,7 @@ const handleBuyNow = (offer) => {
                                     quantity: quantity,
                                     price:   productDetails.Data["Product-Details"][0].current_price ,
                                     total: productDetails.Data["Product-Details"][0].current_price * quantity,
+                                    is_offer:false,
                                     image: productDetails.Data["Product-Details"][0].image_path || productDetails.Data["Product-Details"][0].image
                                 }}
                                 >
@@ -282,6 +283,7 @@ const handleBuyNow = (offer) => {
                             quantity: offer.number_of_peaces,
                             price:   offer.price / offer.number_of_peaces ,
                             total: offer.price,
+                            is_offer:false,
                             image: productDetails.Data["Product-Details"][0].image_path || productDetails.Data["Product-Details"][0].image
                         }}
                         >

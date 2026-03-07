@@ -57,13 +57,12 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
             total: order.total + shippingPrice,
             sub_total:order.total,
             name: e.target.elements.name.value,
-             email: e.target.elements.email.value,
              phone: e.target.elements.phone.value,
              alt_phone: e.target.elements.alt_phone.value,
              state_id: +e.target.elements.state_id.value,
              address: e.target.elements.address.value,
             // sub_total: +location.state.totalPrice,
-
+            is_offer:order.is_offer,
             delivery_price: shippingPrice,       // 👈 أضف ده
 
             payment_type: "cash",
@@ -95,10 +94,7 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
                                 <input type="text" name="name"  defaultValue={profile?.name || ""}  />
                             </div>
 
-                            <div className="input-group">
-                                <label>{t("email")}</label>
-                                <input type="text"   name="email" defaultValue={profile?.email || ""}  />
-                            </div>
+                          
                         </div>
 
                         <div className="group">
