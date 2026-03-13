@@ -296,6 +296,53 @@ const handleBuyNow = (offer) => {
                 </div>
              
                 )}
+               {productDetails?.Data?.["Product-Details"]?.[0]?.relatedOffers?.length > 0 && (
+                    <div className="offers">
+                        <h4 className="offers-title">{t("related offers")}</h4>
+
+                        {productDetails.Data["Product-Details"][0].relatedOffers.map((offer) => (
+                        <div className="offer-card" key={offer.offer_id}>
+
+                            <div className="offer-left">
+
+                            {/* اسماء المنتجات */}
+                            <div className="offer-products">
+                                {offer.products.map((product) => (
+                                <p key={product.id} className="offer-product-name">
+                                    {product.name}
+                                </p>
+                                ))}
+                            </div>
+
+                            {/* السعر */}
+                            <p className="offer-price">
+                                {offer.price} EGP
+                            </p>
+
+                            </div>
+
+                            <Link
+                            to="/check-out-direct"
+                            state={{
+                                product_ids: offer.products.map(p => p.id),
+                                product_names: offer.products.map(p => p.name),
+                                quantity: offer.products.length,
+                                price: offer.price / offer.products.length,
+                                total: offer.price,
+                                is_relatedoffer: true,
+                                offer_id:offer.id,
+                                image:
+                                productDetails.Data["Product-Details"][0].image_path ||
+                                productDetails.Data["Product-Details"][0].image
+                            }}
+                            >
+                            <button className="buy-now">{t("buy_now")}</button>
+                            </Link>
+
+                        </div>
+                        ))}
+                    </div>
+                    )}
             </div>
 
 

@@ -63,7 +63,8 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
              address: e.target.elements.address.value,
             // sub_total: +location.state.totalPrice,
             is_offer:order.is_offer,
-            delivery_price: shippingPrice,       // 👈 أضف ده
+            delivery_price: shippingPrice, 
+                  // 👈 أضف ده
 
             payment_type: "cash",
             payment_status: 0,
@@ -164,23 +165,35 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
 {/*                     <h3>ملخص الطلب</h3>
  */}
                     <div className="total-products">
-                        <p>{t("product_name")  } : </p>
-                        <p><strong>{order.product_name}</strong></p>
+                
+                        <p>{t("product_name")} :</p>
+
+                        {order.is_relatedoffer ? (
+                            <p>
+                                {order.product_names.join(" + ")}
+                            </p>
+                        ) : (
+                            <p>
+                                {order.product_name}
+                            </p>
+                        )}
+                    </div>
+
+                    {!order.is_relatedoffer && (
+                        <>
+                            <div className="total-products">
+                                <p>الكمية:</p>
+                                <p>{order.quantity}</p>
+                            </div>              
+
+                            <div className="total-products">
+                                <p>سعر القطعة:</p>
+                                <p>{order.price} EGP</p>
+                            </div>
+                        </>
+                    )}
+                   
                     
-                    </div>
-                     <div className="total-products">
-                       
-                        <p>الكمية: </p>
-                         <p>{order.quantity}</p>
-                        
-                    </div>
-                    <div className="total-products">
-                       
-                       
-                        <p>سعر القطعة:</p>
-                        <p> {order.price} EGP</p>
-                        
-                    </div>
                    
                     <div className="total-products">
                         <p>{t("shipping")}</p>
