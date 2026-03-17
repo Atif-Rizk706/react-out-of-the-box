@@ -111,7 +111,7 @@ const CartPage = () => {
                                                 <img src={el.image} alt="" />
                                                 <p>{el.name}</p>
                                             </td>
-                                            <td>${el.price}</td>
+                                            <td>EGP{el.price}</td>
                                             <td>
                                                 <div className="quantity">
                                                     <button
@@ -149,7 +149,7 @@ const CartPage = () => {
                                                     onClick={() => handleDelItemCart(el.item_id)}
                                                     disabled={isItem === el.item_id}
                                                 >
-                                                    {isItem === el.item_id ? <SmallLoad /> : <Trash2 />}
+                                                    {isItem === el.item_id ? <SmallLoad /> : <Trash2 />} تتتتتتت
                                                 </button>
                                             </td>
                                         </tr>
@@ -189,7 +189,7 @@ const CartPage = () => {
 
                             <div className="total">
                                 <strong>{t("total_after_discount")}:</strong>
-                                <span>${Math.round((totalCartPrice - discount) * 100) / 100}</span>
+                                <span>ُEGP{Math.round((totalCartPrice - discount) * 100) / 100}</span>
                             </div>
 
                             <Link

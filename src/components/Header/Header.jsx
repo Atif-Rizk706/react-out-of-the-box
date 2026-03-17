@@ -234,7 +234,7 @@ const Header = () => {
                                 </span>
 
                                 <div>
-                                    <p>${Number(cart?.data?.totalPrice).toFixed(2)}</p>
+                                    <p>EGP {Number(cart?.data?.totalPrice).toFixed(2)}</p>
                                     <span>{t("cart_total")}</span>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@ const Header = () => {
                                                     <div className="info">
                                                         <h4>{el.name}</h4>
                                                         <p>
-                                                            <span>${Number(el.price).toFixed(2)}</span>
+                                                            <span>EGP{Number(el.price).toFixed(2)}</span>
                                                             <span>{"x"}</span>
                                                             <span>{el.quantity}</span>
                                                         </p>

@@ -88,8 +88,9 @@
 
         .btn-cart {
             margin-top: 8px;
-
+            display: flex;
             width: 100%;
+            gap: 6px;
 
             p {
                 text-align: center;
@@ -103,10 +104,11 @@
                 background-color: var(--main_color);
                 color: #FFF;
                 padding-block: 9px;
-                font-size: 16px;
+                font-size: 15px;
                 border-radius: 20px;
                 cursor: pointer;
-                width: 100%;
+                width: 60%;
+
 
                 svg {
                     width: 22px;
@@ -116,6 +118,16 @@
                 .loading-btn {
                     color: #FFF;
                 }
+            }
+            .buy-now{
+                 border: none;
+                background-color: var(--main_color);
+                color: #FFF;
+                padding-block: 9px;
+                font-size: 14px;
+                border-radius: 20px;
+                 width:100px;
+
             }
         }
     }

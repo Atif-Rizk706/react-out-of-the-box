@@ -154,6 +154,14 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
 
                             
                         </div>
+                        <div className="group">
+                            <div className="input-group">
+                                <label>{t("notes")}</label>
+                                <input type="text" name="notes" />
+                            </div>
+
+                            
+                        </div>
                          <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
                             {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
                         </button>

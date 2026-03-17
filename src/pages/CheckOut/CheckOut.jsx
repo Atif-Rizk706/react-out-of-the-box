@@ -107,15 +107,7 @@ const CheckOut = () => {
                                 />
                             </div>
 
-                            <div className="input-group">
-                                <label>{t("email")}</label>
-                                <input
-                                    type="text"
-                                    defaultValue={profile?.email || ""}
-                                    placeholder={t("enter_your_email")}
-                                    name="email"
-                                />
-                            </div>
+                            
                         </div>
 
                         <div className="group">
@@ -178,6 +170,14 @@ const CheckOut = () => {
                             <div className="input-group">
                                 <label>{t("address")}</label>
                                 <input type="text" name="address" />
+                            </div>
+
+                            
+                        </div>
+                        <div className="group">
+                            <div className="input-group">
+                                <label>{t("notes")}</label>
+                                <input type="text" name="notes" />
                             </div>
 
                             

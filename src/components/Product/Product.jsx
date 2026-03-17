@@ -105,6 +105,7 @@ const Product = ({ product }) => {
                     }
                 </div>
 
+
                 <div className="btn-cart">
                     {cuurentItem ? <p>{t("product_in_cart")}</p> :
                         <button
@@ -115,7 +116,26 @@ const Product = ({ product }) => {
                             {isLoading ? <SmallLoad /> : t("add_to_cart")}
                         </button>
                     }
+
+                    <Link
+                                to="/check-out-direct"   
+                                state={{
+                                    product_id: product.id,
+                                    product_name: product.name,
+                                    quantity: 1,
+                                    price:   product.current_price ,
+                                    total: product.current_price * 1,
+                                    is_offer:false,
+                                    image: product.image_path || product.image
+                                }}
+                                >
+                                <button className="buy-now">{t("buy_now")}</button>
+                            </Link>
                 </div>
+                 <div className="btn-cart">
+                         
+                 </div>
+                
             </div>
         </div>
     );
