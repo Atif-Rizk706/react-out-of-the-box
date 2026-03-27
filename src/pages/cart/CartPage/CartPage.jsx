@@ -161,7 +161,7 @@ const CartPage = () => {
                         <div className="check-price">
                             <div className="subtotal">
                                 <strong>{t("subtotal")}:</strong>
-                                <span>${totalCartPrice.toFixed(2)}</span>
+                                <span>EGP{totalCartPrice.toFixed(2)}</span>
                             </div>
 
                             <div className="coupon">

@@ -43,7 +43,6 @@ const CheckOut = () => {
              payment_status: 1,
              payment_type: 1,
              name: e.target.elements.name.value,
-             email: e.target.elements.email.value,
              phone: e.target.elements.phone.value,
              alt_phone: e.target.elements.alt_phone.value,
              state_id: +e.target.elements.state_id.value,
