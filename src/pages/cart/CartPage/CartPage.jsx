@@ -142,14 +142,14 @@ const CartPage = () => {
                                                 </div>
                                             </td>
                                             <td>
-                                                ${(el.price * (quantities[el.id] || 1)).toFixed(2)}
+                                                EGP{(el.price * (quantities[el.id] || 1)).toFixed(2)}
                                             </td>
                                             <td>
                                                 <button
                                                     onClick={() => handleDelItemCart(el.item_id)}
                                                     disabled={isItem === el.item_id}
                                                 >
-                                                    {isItem === el.item_id ? <SmallLoad /> : <Trash2 />} تتتتتتت
+                                                    {isItem === el.item_id ? <SmallLoad /> : <Trash2 />} 
                                                 </button>
                                             </td>
                                         </tr>
