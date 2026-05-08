@@ -162,30 +162,24 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
 
                             
                         </div>
-                         <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
-                            {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
-                        </button>
-                    </form>
-                </div>
 
-                {/* ORDER INFO */}
-                <div className="info-order">
+                         <div className="info-order">
 {/*                     <h3>ملخص الطلب</h3>
  */}
-                    <div className="total-products">
-                
-                        <p>{t("product_name")} :</p>
+                        <div className="total-products">
+                    
+                            <p>{t("product_name")} :</p>
 
-                        {order.is_relatedoffer ? (
-                            <p>
-                                {order.product_names.join(" + ")}
-                            </p>
-                        ) : (
-                            <p>
-                                {order.product_name}
-                            </p>
-                        )}
-                    </div>
+                            {order.is_relatedoffer ? (
+                                <p>
+                                    {order.product_names.join(" + ")}
+                                </p>
+                            ) : (
+                                <p>
+                                    {order.product_name}
+                                </p>
+                            )}
+                        </div>
 
                     {!order.is_relatedoffer && (
                         <>
@@ -216,6 +210,14 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
 
                    
                 </div>
+                         <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
+                            {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
+                        </button>
+                    </form>
+                </div>
+
+                {/* ORDER INFO */}
+               
             </div>
         </div>
     );

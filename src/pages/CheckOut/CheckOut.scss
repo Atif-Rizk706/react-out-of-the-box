@@ -75,6 +75,11 @@
                 color: var(--second_color);
                 font-size: 25px;
             }
+             .info-order {
+            margin-top: 20px;
+            width: 100%;
+    }
+
         }
 
         .info-order {
@@ -146,7 +151,7 @@
 @media (max-width: 991px) {
     .check-out {
         >.container {
-            flex-direction: column-reverse;
+            flex-direction: column;
             gap: 30px !important;
 
             >div {
