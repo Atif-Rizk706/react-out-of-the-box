@@ -101,13 +101,13 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("phone")}</label>
-                                <input type="text"  name="phone" defaultValue={profile?.phone || ""}  />
+                                <input type="number"  name="phone" defaultValue={profile?.phone || ""}  />
                             </div>
                         </div>
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("alt_phone")}</label>
-                                <input type="text"  name="alt_phone" defaultValue={profile?.phone || ""}  />
+                                <input type="number"  name="alt_phone" defaultValue={profile?.phone || ""}  />
                             </div>
                         </div>
 
