@@ -114,7 +114,7 @@ const CheckOut = () => {
 
                             <div className="input-group">
                                 <label>{t("phone")}</label>
-                                <input
+                                <input required
                                     type="text"
                                     defaultValue={profile?.phone || ""}
                                     placeholder={t("input_phone")}

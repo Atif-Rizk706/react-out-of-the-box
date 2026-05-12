@@ -50,6 +50,10 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
             toast.error(t("country_city_required"));
             return;
         }
+         if (!e.target.elements.phone.value) {
+            toast.error(t("phone_is_required"));
+            return;
+        }
 
         const data = {
             product_id: order.product_id,
@@ -101,7 +105,7 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("phone")}</label>
-                                <input type="number"  name="phone" defaultValue={profile?.phone || ""}  />
+                                <input type="number" required name="phone" defaultValue={profile?.phone || ""}  />
                             </div>
                         </div>
                         <div className="group">

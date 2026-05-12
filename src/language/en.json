@@ -120,6 +120,8 @@
     "enter_comment": "Enter Your Comment",
     "add_comment": "Add Comment",
     "comments": "Comments",
+        "phone_is_required":"phone is required",
+
     "low_price": "Lowest Price",
     "ratings": "Ratings",
     "add_to_cart": "Add To Cart",
