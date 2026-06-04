@@ -109,10 +109,7 @@ const Header = () => {
                         <li>
                             <Link to="/contact">{t("contact")}</Link>
                         </li>
-                       {/*  <li>
-                            <span><Check /></span>
-                            <span>{t("free_shipping")}</span>
-                        </li> */}
+                    
                         <li>
                             <span><Check /></span>
                             <span>{t("secure_payment")}</span>
