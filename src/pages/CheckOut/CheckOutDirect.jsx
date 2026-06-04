@@ -30,8 +30,8 @@ const CheckOutDirect = () => {
     );
 
     const firebaseId = localStorage.getItem("fcmToken");
-    //const [makeOrder, { isLoading: loadSubmit }] = useMakeOrderMutation();
-const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation()
+    const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation();
+    
     if (!order) {
         navigate("/");
         return null;
@@ -39,19 +39,16 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-/* 
-        if (!token) {
-            toast.error(t("please_login"));
-            navigate("/login");
-            return;
-        } */
 
         if (!e.target.elements.state_id.value) {
             toast.error(t("country_city_required"));
             return;
         }
-         if (!e.target.elements.phone.value) {
-            toast.error(t("phone_is_required"));
+
+        const phoneValue = e.target.elements.phone.value;
+        if (!phoneValue || phoneValue.length !== 11) {
+            // رسالة خطأ إذا لم يكن الرقم 11 رقماً
+            toast.error("رقم الهاتف يجب أن يتكون من 11 رقم"); 
             return;
         }
 
@@ -59,17 +56,14 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
             product_id: order.product_id,
             quantity: order.quantity,
             total: order.total + shippingPrice,
-            sub_total:order.total,
+            sub_total: order.total,
             name: e.target.elements.name.value,
-             phone: e.target.elements.phone.value,
-             alt_phone: e.target.elements.alt_phone.value,
-             state_id: +e.target.elements.state_id.value,
-             address: e.target.elements.address.value,
-            // sub_total: +location.state.totalPrice,
-            is_offer:order.is_offer,
+            phone: phoneValue,
+            alt_phone: e.target.elements.alt_phone.value,
+            state_id: +e.target.elements.state_id.value,
+            address: e.target.elements.address.value,
+            is_offer: order.is_offer,
             delivery_price: shippingPrice, 
-                  // 👈 أضف ده
-
             payment_type: "cash",
             payment_status: 0,
         };
@@ -96,50 +90,47 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("name")}</label>
-                                <input type="text" name="name"  defaultValue={profile?.name || ""}  />
+                                {/* جعل حقل الاسم إجبارياً هنا */}
+                                <input type="text" name="name" required defaultValue={profile?.name || ""} />
                             </div>
-
-                          
                         </div>
 
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("phone")}</label>
-                                <input type="number" required name="phone" defaultValue={profile?.phone || ""}  />
+                                {/* جعل حقل الهاتف يقبل 11 رقم فقط */}
+                                <input 
+                                    type="tel" 
+                                    required 
+                                    name="phone" 
+                                    maxLength="11"
+                                    minLength="11"
+                                    pattern="\d{11}"
+                                    defaultValue={profile?.phone || ""} 
+                                />
                             </div>
                         </div>
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("alt_phone")}</label>
-                                <input type="number"  name="alt_phone" defaultValue={profile?.phone || ""}  />
+                                <input type="number" name="alt_phone" defaultValue={profile?.phone || ""} />
                             </div>
                         </div>
 
                         <h3>{t("ship_to_address")}</h3>
 
                         <div className="group">
-                           
-
                             <div className="input-group">
                                 <label>{t("city")}</label>
                                 <select name="state_id" 
                                   onChange={(e) => {
                                         const selectedId = Number(e.target.value);
-                                         console.log("Selected ID:", selectedId);
-                                        console.log("Governorates:", governorates?.data);
                                         const selectedCity = governorates?.data?.find(
                                             (city) => city.ID === selectedId
                                         );
-                                          console.log("de:", selectedCity?.delivery_price);
-
-
-
                                         setShippingPrice(selectedCity?.delivery_price || 0);
                                     }}
-                                     
                                 >
-
-
                                     <option value="">{t("select_city")}</option>
                                     {governorates?.data?.map((el) => (
                                         <option key={el.id} value={el.ID}>
@@ -155,73 +146,60 @@ const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation(
                                 <label>{t("address")}</label>
                                 <input type="text" name="address" />
                             </div>
-
-                            
                         </div>
+                        
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("notes")}</label>
                                 <input type="text" name="notes" />
                             </div>
-
-                            
                         </div>
 
-                         <div className="info-order">
-{/*                     <h3>ملخص الطلب</h3>
- */}
-                        <div className="total-products">
-                    
-                            <p>{t("product_name")} :</p>
-
-                            {order.is_relatedoffer ? (
-                                <p>
-                                    {order.product_names.join(" + ")}
-                                </p>
-                            ) : (
-                                <p>
-                                    {order.product_name}
-                                </p>
-                            )}
-                        </div>
-
-                    {!order.is_relatedoffer && (
-                        <>
+                        <div className="info-order">
                             <div className="total-products">
-                                <p>الكمية:</p>
-                                <p>{order.quantity}</p>
-                            </div>              
+                                <p>{t("product_name")} :</p>
 
-                            <div className="total-products">
-                                <p>سعر القطعة:</p>
-                                <p>{order.price} EGP</p>
+                                {order.is_relatedoffer ? (
+                                    <p>
+                                        {order.product_names.join(" + ")}
+                                    </p>
+                                ) : (
+                                    <p>
+                                        {order.product_name}
+                                    </p>
+                                )}
                             </div>
-                        </>
-                    )}
-                   
-                    
-                   
-                    <div className="total-products">
-                        <p>{t("shipping")}</p>
-                        <p>{shippingPrice}</p>
-                    </div>
-                     <div className="total-products">
-                        <p>{t("total")}</p>
-                        <p>ُEGP{order.total +shippingPrice}</p>
-                    </div>
 
-                    
+                            {!order.is_relatedoffer && (
+                                <>
+                                    <div className="total-products">
+                                        <p>الكمية:</p>
+                                        <p>{order.quantity}</p>
+                                    </div>              
 
+                                    <div className="total-products">
+                                        <p>سعر القطعة:</p>
+                                        <p>{order.price} EGP</p>
+                                    </div>
+                                </>
+                            )}
                    
-                </div>
-                         <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
+                            <div className="total-products">
+                                <p>{t("shipping")}</p>
+                                {/* تعديل الشحن ليظهر نص قبل اختيار المحافظة */}
+                                <p>{shippingPrice === 0 ? "على حسب الاختيار" : shippingPrice}</p>
+                            </div>
+                            <div className="total-products">
+                                <p>{t("total")}</p>
+                                <p>EGP {order.total + shippingPrice}</p>
+                            </div>
+                        </div>
+                        
+                        <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
                             {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
                         </button>
                     </form>
                 </div>
-
-                {/* ORDER INFO */}
-               
             </div>
         </div>
     );
