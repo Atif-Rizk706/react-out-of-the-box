@@ -79,7 +79,7 @@ const { t, i18n } = useTranslation();
                                 </a>
                             )}
 
-                            {socials.whatsapp && (
+                            {/*socials.whatsapp && (
                                 <a
                                     href={`https://wa.me/${socials.whatsapp}`}
                                     target="_blank"
@@ -87,7 +87,7 @@ const { t, i18n } = useTranslation();
                                 >
                                     <FontAwesomeIcon icon={faWhatsapp} />
                                 </a>
-                            )}
+                            )*/}
 
                             {socials.instagram && (
                                 <a href={socials.instagram} target="_blank" rel="noreferrer">
