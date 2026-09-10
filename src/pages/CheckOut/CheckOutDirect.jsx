@@ -1,5 +1,5 @@
 import "./CheckOut.scss";
-import { useCitysQuery, useCountrysQuery ,useGovernoratesQuery} from "../../redux/slice/locationsSlice/locationsSlice";
+import { useGovernoratesQuery, useRegionsQuery } from "../../redux/slice/locationsSlice/locationsSlice";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,24 +16,21 @@ const CheckOutDirect = () => {
     const order = location.state;
 
     const { t, i18n } = useTranslation();
-    const [countryId, setCountryId] = useState("");
     const token = getUserToken();
 
     const { data: profile = {}, isLoading } = useProfileQuery(token);
-    const { data: countrys = [] } = useCountrysQuery(i18n.language);
     const { data: governorates = [] } = useGovernoratesQuery(i18n.language);
+
     const [shippingPrice, setShippingPrice] = useState(0);
-    
-    // 👈 إضافة State للتحكم في عرض الأخطاء تحت كل حقل
+    const [selectedStateId, setSelectedStateId] = useState("");
     const [formErrors, setFormErrors] = useState({});
 
-    const { data: citys = [] } = useCitysQuery(
-        { lang: i18n.language, id: countryId },
-        { skip: !countryId }
-    );
+    const { data: regionsData = {}, isLoading: loadRegions } = useRegionsQuery(selectedStateId, {
+        skip: !selectedStateId,
+    });
 
     const [makeDirectOrder, { isLoading: loadSubmit }] = useMakeDirectOrderMutation();
-    
+
     if (!order) {
         navigate("/");
         return null;
@@ -41,37 +38,35 @@ const CheckOutDirect = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const errors = {};
         const nameValue = e.target.elements.name.value.trim();
         const phoneValue = e.target.elements.phone.value.trim();
         const stateIdValue = e.target.elements.state_id.value;
+        const regionIdValue = e.target.elements.region_id?.value;
 
-        // التحقق من الاسم
-        if (!nameValue) {
-            errors.name = "الاسم مطلوب";
-        }
+        if (!nameValue) errors.name = "الاسم مطلوب";
 
-        // التحقق من رقم الهاتف
         if (!phoneValue) {
             errors.phone = t("phone_is_required");
         } else if (phoneValue.length !== 11) {
             errors.phone = "رقم الهاتف يجب أن يتكون من 11 رقم";
         }
 
-        // التحقق من المحافظة
         if (!stateIdValue) {
             errors.state_id = t("country_city_required");
         }
 
-        // إذا كان هناك أخطاء، قم بتحديث الـ State وأوقف الإرسال
+        if (!regionIdValue) {
+            errors.region_id = "يرجى اختيار المنطقة";
+        }
+
         if (Object.keys(errors).length > 0) {
             setFormErrors(errors);
             toast.error("يرجى مراجعة الحقول المطلوبة وتصحيح الأخطاء");
             return;
         }
 
-        // تفريغ الأخطاء في حال كان كل شيء صحيحاً
         setFormErrors({});
 
         const data = {
@@ -83,9 +78,10 @@ const CheckOutDirect = () => {
             phone: phoneValue,
             alt_phone: e.target.elements.alt_phone.value,
             state_id: +stateIdValue,
+            region_id: +regionIdValue,
             address: e.target.elements.address.value,
             is_offer: order.is_offer,
-            delivery_price: shippingPrice, 
+            delivery_price: shippingPrice,
             payment_type: "cash",
             payment_status: 0,
         };
@@ -106,20 +102,17 @@ const CheckOutDirect = () => {
     return (
         <div className="check-out">
             <div className="container">
-                {/* FORM */}
                 <div className="form">
-                    {/* تمت إزالة noValidate لنمنع تدخل المتصفح ونعتمد على الكود الخاص بنا */}
                     <form id="checkout-form" onSubmit={handleSubmit} noValidate>
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("name")}</label>
-                                <input 
-                                    type="text" 
-                                    name="name" 
-                                    defaultValue={profile?.name || ""} 
+                                <input
+                                    type="text"
+                                    name="name"
+                                    defaultValue={profile?.name || ""}
                                     style={{ borderColor: formErrors.name ? "red" : "" }}
                                 />
-                                {/* 👈 إظهار رسالة الخطأ هنا */}
                                 {formErrors.name && <span style={{ color: "red", fontSize: "12px" }}>{formErrors.name}</span>}
                             </div>
                         </div>
@@ -127,17 +120,16 @@ const CheckOutDirect = () => {
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("phone")}</label>
-                                <input 
-                                    type="number" 
-                                    name="phone" 
-                                    defaultValue={profile?.phone || ""} 
+                                <input
+                                    type="number"
+                                    name="phone"
+                                    defaultValue={profile?.phone || ""}
                                     style={{ borderColor: formErrors.phone ? "red" : "" }}
                                 />
-                                {/* 👈 إظهار رسالة الخطأ هنا */}
                                 {formErrors.phone && <span style={{ color: "red", fontSize: "12px" }}>{formErrors.phone}</span>}
                             </div>
                         </div>
-                        
+
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("alt_phone")}</label>
@@ -147,19 +139,22 @@ const CheckOutDirect = () => {
 
                         <h3>{t("ship_to_address")}</h3>
 
+                        {/* 1. اختيار المحافظة (Governorate) */}
                         <div className="group">
                             <div className="input-group">
-                                <label>{t("city")}</label>
-                                <select 
-                                    name="state_id" 
+                                <label>{t("city")} (المحافظة)</label>
+                                <select
+                                    name="state_id"
                                     style={{ borderColor: formErrors.state_id ? "red" : "" }}
                                     onChange={(e) => {
                                         const selectedId = Number(e.target.value);
+                                        setSelectedStateId(selectedId);
+
                                         const selectedCity = governorates?.data?.find(
                                             (city) => city.ID === selectedId
                                         );
                                         setShippingPrice(selectedCity?.delivery_price || 0);
-                                        // مسح الخطأ بمجرد الاختيار
+
                                         if (selectedId) {
                                             setFormErrors(prev => ({ ...prev, state_id: "" }));
                                         }
@@ -167,13 +162,37 @@ const CheckOutDirect = () => {
                                 >
                                     <option value="">{t("select_city")}</option>
                                     {governorates?.data?.map((el) => (
-                                        <option key={el.id} value={el.ID}>
+                                        <option key={el.id || el.ID} value={el.ID || el.id}>
                                             {el.name}
                                         </option>
                                     ))}
                                 </select>
-                                {/* 👈 إظهار رسالة الخطأ هنا */}
                                 {formErrors.state_id && <span style={{ color: "red", fontSize: "12px" }}>{formErrors.state_id}</span>}
+                            </div>
+                        </div>
+
+                        {/* 2. اختيار المنطقة (Region) */}
+                        <div className="group">
+                            <div className="input-group">
+                                <label>المنطقة (Region)</label>
+                                <select
+                                    name="region_id"
+                                    disabled={!selectedStateId}
+                                    style={{ borderColor: formErrors.region_id ? "red" : "" }}
+                                    onChange={() => {
+                                        setFormErrors(prev => ({ ...prev, region_id: "" }));
+                                    }}
+                                >
+                                    <option value="">
+                                        {loadRegions ? "جاري تحميل المناطق..." : "اختر المنطقة"}
+                                    </option>
+                                    {regionsData?.data?.map((region) => (
+                                        <option key={region.id} value={region.id}>
+                                            {region.name}
+                                        </option>
+                                    ))}
+                                </select>
+                                {formErrors.region_id && <span style={{ color: "red", fontSize: "12px" }}>{formErrors.region_id}</span>}
                             </div>
                         </div>
 
@@ -183,7 +202,7 @@ const CheckOutDirect = () => {
                                 <input type="text" name="address" />
                             </div>
                         </div>
-                        
+
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("notes")}</label>
@@ -206,7 +225,7 @@ const CheckOutDirect = () => {
                                     <div className="total-products">
                                         <p>الكمية:</p>
                                         <p>{order.quantity}</p>
-                                    </div>              
+                                    </div>
 
                                     <div className="total-products">
                                         <p>سعر القطعة:</p>
@@ -214,7 +233,7 @@ const CheckOutDirect = () => {
                                     </div>
                                 </>
                             )}
-                   
+
                             <div className="total-products">
                                 <p>{t("shipping")}</p>
                                 <p>{shippingPrice === 0 ? "على حسب اختيار المحافظة" : shippingPrice}</p>
@@ -224,7 +243,7 @@ const CheckOutDirect = () => {
                                 <p>EGP {order.total + shippingPrice}</p>
                             </div>
                         </div>
-                        
+
                         <button className="pay" type="submit" form="checkout-form" disabled={loadSubmit}>
                             {loadSubmit ? <SmallLoad /> : "إتمام الطلب"}
                         </button>

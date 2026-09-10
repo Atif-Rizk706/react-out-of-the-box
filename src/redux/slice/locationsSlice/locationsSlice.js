@@ -17,9 +17,17 @@ export const locationsSlice = apiSlice.injectEndpoints({
             }),
             providesTags: ["Locations"]
         }),
-         governorates: builder.query({
+        governorates: builder.query({
             query: ({ lang, id }) => ({
                 url: `/api/governorate?lang=${lang}`,
+                method: "GET",
+            }),
+            providesTags: ["Locations"]
+        }),
+        // 👈 أضفنا هذا الـ Endpoint الجديد لجلب المناطق بناءً على الـ state_id
+        regions: builder.query({
+            query: (stateId) => ({
+                url: `/api/states/${stateId}/regions`,
                 method: "GET",
             }),
             providesTags: ["Locations"]
@@ -31,4 +39,5 @@ export const {
     useCountrysQuery,
     useCitysQuery,
     useGovernoratesQuery,
+    useRegionsQuery, // 👈 تصدير الهوك الجديد لاستخدامه في صفحة الـ Checkout
 } = locationsSlice;
