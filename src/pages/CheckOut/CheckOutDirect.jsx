@@ -43,7 +43,6 @@ const CheckOutDirect = () => {
         const nameValue = e.target.elements.name.value.trim();
         const phoneValue = e.target.elements.phone.value.trim();
         const stateIdValue = e.target.elements.state_id.value;
-        const regionIdValue = e.target.elements.region_id?.value;
 
         if (!nameValue) errors.name = "الاسم مطلوب";
 
@@ -76,9 +75,7 @@ const CheckOutDirect = () => {
             sub_total: order.total,
             name: nameValue,
             phone: phoneValue,
-            alt_phone: e.target.elements.alt_phone.value,
             state_id: +stateIdValue,
-            region_id: +regionIdValue,
             address: e.target.elements.address.value,
             is_offer: order.is_offer,
             delivery_price: shippingPrice,
