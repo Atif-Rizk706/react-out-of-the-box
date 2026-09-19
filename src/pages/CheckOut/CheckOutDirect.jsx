@@ -57,9 +57,9 @@ const CheckOutDirect = () => {
             errors.state_id = t("country_city_required");
         }
 
-        if (!regionIdValue) {
-            errors.region_id = "يرجى اختيار المنطقة";
-        }
+        // if (!regionIdValue) {
+        //     errors.region_id = "يرجى اختيار المنطقة";
+        // }
 
         if (Object.keys(errors).length > 0) {
             setFormErrors(errors);
