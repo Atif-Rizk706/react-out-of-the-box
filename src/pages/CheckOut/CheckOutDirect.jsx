@@ -151,7 +151,7 @@ const CheckOutDirect = () => {
                                         setSelectedStateId(selectedId);
 
                                         const selectedCity = governorates?.data?.find(
-                                            (city) => city.ID === selectedId
+                                            (city) => (city.id || city.ID) === selectedId
                                         );
                                         setShippingPrice(selectedCity?.delivery_price || 0);
 
@@ -172,7 +172,7 @@ const CheckOutDirect = () => {
                         </div>
 
                         {/* 2. اختيار المنطقة (Region) */}
-                        <div className="group">
+                        {/* <div className="group">
                             <div className="input-group">
                                 <label>المنطقة (Region)</label>
                                 <select
@@ -194,7 +194,7 @@ const CheckOutDirect = () => {
                                 </select>
                                 {formErrors.region_id && <span style={{ color: "red", fontSize: "12px" }}>{formErrors.region_id}</span>}
                             </div>
-                        </div>
+                        </div> */}
 
                         <div className="group">
                             <div className="input-group">
