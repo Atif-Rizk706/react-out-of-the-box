@@ -119,7 +119,7 @@ const CheckOutDirect = () => {
 
                         <div className="group">
                             <div className="input-group">
-                                <label>{t("phone")}</label>
+                                <label>{t("phone")} (متاح الواتس)</label>
                                 <input
                                     type="number"
                                     name="phone"
@@ -130,12 +130,6 @@ const CheckOutDirect = () => {
                             </div>
                         </div>
 
-                        <div className="group">
-                            <div className="input-group">
-                                <label>{t("alt_phone")}</label>
-                                <input type="number" name="alt_phone" defaultValue={profile?.phone || ""} />
-                            </div>
-                        </div>
 
                         <h3>{t("ship_to_address")}</h3>
 
@@ -199,7 +193,7 @@ const CheckOutDirect = () => {
                         <div className="group">
                             <div className="input-group">
                                 <label>{t("address")}</label>
-                                <input type="text" name="address" />
+                                <input type="text" name="address" placeholder="اكتب المركز والقرية بالتفاصيل" />
                             </div>
                         </div>
 
